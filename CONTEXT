@@ -1,0 +1,1073 @@
+I am building a custom multilingual Anki card system and a browser-based HTML version of the same concept.
+
+Your task is to continue development from the specifications below without unnecessarily redesigning or refactoring working parts.
+
+# General development rules
+
+- Prefer minimal, targeted changes.
+- Do not rewrite working logic unless necessary.
+- Preserve current visual structure unless I explicitly ask for a redesign.
+- Provide complete pasteable code when I ask for code.
+- If I ask for the full code, provide:
+  1. Front template
+  2. Back template
+  3. CSS
+- Do not omit sections or replace them with comments like "same as before."
+- Keep HTML, CSS, and JavaScript readable and clearly divided into sections.
+- Avoid unnecessary libraries or frameworks.
+- The solution should work efficiently in a browser and, where applicable, inside Anki.
+- Preserve audio/TTS behavior carefully because it is one of the most sensitive parts of the project.
+
+---
+
+# Main multilingual card concept
+
+The card contains:
+
+- Field 1
+- Field 2
+- Field 3 — English
+- Field 4 — German
+- Field 5 — Norwegian Bokmål
+- Field 6 — Spanish
+
+The visual structure is minimalist.
+
+Each language row contains:
+
+- a black circular play button on the left
+- a circular country flag
+- a white rounded pill containing the sentence
+
+Typical layout:
+
+```text
+[ ▶ ] [ 🇬🇧 ] [ English sentence ]
+
+[ ▶ ] [ 🇩🇪 ] [ German sentence ]
+
+[ ▶ ] [ 🇳🇴 ] [ Norwegian sentence ]
+
+[ ▶ ] [ 🇪🇸 ] [ Spanish sentence ]
+```
+
+The card uses a light interface with:
+
+- Google Sans or similar
+- white pills
+- very subtle shadows
+- rounded components
+- mostly white / black / neutral tones
+- pink/orange gradient only for active toggle switches
+- responsive layout
+- centered content
+
+---
+
+# Front card
+
+The front currently shows Field 3 as the main top-language row.
+
+Field 1 and Field 2 exist in the bottom section.
+
+The front should preserve the same toggle system as the back.
+
+---
+
+# Back card
+
+The back contains:
+
+## Field 3 — English
+
+```html
+{{tts en_US:Field 3}}
+```
+
+Flag:
+
+```text
+https://flagcdn.com/w320/gb.png
+```
+
+## Field 4 — German
+
+```html
+{{tts de_DE:Field 4}}
+```
+
+Flag:
+
+```text
+https://flagcdn.com/w320/de.png
+```
+
+Field 4 should only render when populated:
+
+```html
+{{#Field 4}}
+...
+{{/Field 4}}
+```
+
+## Field 5 — Norwegian Bokmål
+
+```html
+{{tts nb_NO:Field 5}}
+```
+
+Flag:
+
+```text
+https://flagcdn.com/w320/no.png
+```
+
+Field 5 should only render when populated.
+
+## Field 6 — Spanish
+
+```html
+{{tts es_ES:Field 6}}
+```
+
+Flag:
+
+```text
+https://flagcdn.com/w320/es.png
+```
+
+Field 6 should only render when populated.
+
+Field 1 and Field 2 appear as larger rounded pills in the bottom section.
+
+---
+
+# Custom play button
+
+The visual play button should remain:
+
+- black
+- circular
+- white triangular play icon
+- approximately 40×40 px
+- slightly smaller on mobile
+
+In the Anki implementation, the invisible Anki TTS element sits over or inside the play button so clicking the button triggers Anki TTS.
+
+The basic structure is:
+
+```html
+<div class="play-wrapper">
+
+  <div class="custom-play"></div>
+
+  <div class="tts-hidden">
+    {{tts en_US:Field 3}}
+  </div>
+
+</div>
+```
+
+The `.tts-hidden` element is transparent but clickable.
+
+Do not break this behavior unless I specifically ask to replace Anki TTS.
+
+---
+
+# Visibility toggle semantics
+
+IMPORTANT:
+
+The project originally used toggle labels such as:
+
+```text
+Hide Flags
+Hide Field 1 & 2
+Hide Field 3, 4, 5 & 6
+```
+
+This concept was changed.
+
+The switches must represent the VISIBLE STATE.
+
+The correct labels are:
+
+```text
+Show Flags
+Show Field 1 & 2
+Show Field 3, 4, 5 & 6
+```
+
+The conceptual rule is:
+
+```text
+OFF = hidden
+ON  = visible
+```
+
+Visually:
+
+```text
+OFF
+○────
+left
+gray
+hidden
+
+ON
+────●
+right
+colored
+visible
+```
+
+The toggle must therefore behave like a normal modern switch.
+
+---
+
+# Default toggle states
+
+The required defaults are:
+
+```text
+Show Flags                 ON
+Show Field 1 & 2           OFF
+Show Field 3, 4, 5 & 6     ON
+```
+
+Therefore when opening the card initially:
+
+- flags are visible
+- Field 3–6 are visible
+- Field 1–2 are hidden
+
+The checkbox IDs are:
+
+```html
+show-flags
+show-1-2
+show-3-6
+```
+
+The corresponding state classes are:
+
+```text
+show-flags
+show-bottom-fields
+show-top-fields
+```
+
+The initial card can therefore have:
+
+```html
+<div
+  class="anki-card show-flags show-top-fields"
+  id="anki-card"
+>
+```
+
+Field 1–2 are not initially shown because `show-bottom-fields` is absent.
+
+---
+
+# Toggle styling
+
+The toggle track is approximately:
+
+```css
+width: 44px;
+height: 22px;
+```
+
+OFF state:
+
+- gray border
+- gray knob
+- knob on left
+
+ON state:
+
+- pink border
+- knob moves right
+- knob uses this gradient:
+
+```css
+linear-gradient(
+  135deg,
+  #ffc3a0 0%,
+  #ffafbd 100%
+);
+```
+
+Movement:
+
+```css
+transform: translateX(22px);
+```
+
+Do not invert this behavior.
+
+---
+
+# Toggle state persistence
+
+The card currently uses:
+
+```javascript
+sessionStorage
+```
+
+for remembering switch states during the session.
+
+The intended logic is:
+
+```javascript
+const defaultStates = {
+  "show-flags": true,
+  "show-1-2": false,
+  "show-3-6": true
+};
+```
+
+Retrieval:
+
+```javascript
+function getStoredState(id) {
+
+  try {
+
+    const stored =
+      sessionStorage.getItem(id);
+
+    if (stored === null) {
+      return defaultStates[id];
+    }
+
+    return stored === "true";
+
+  }
+
+  catch (error) {
+
+    return defaultStates[id];
+
+  }
+
+}
+```
+
+Saving:
+
+```javascript
+function saveState(id, state) {
+
+  try {
+
+    sessionStorage.setItem(
+      id,
+      String(state)
+    );
+
+  }
+
+  catch (error) {
+
+    /* Storage unavailable */
+
+  }
+
+}
+```
+
+The switch state should then control classes on:
+
+```javascript
+const card =
+  document.getElementById("anki-card");
+```
+
+using:
+
+```javascript
+card.classList.toggle(
+  "show-flags",
+  showFlags
+);
+
+card.classList.toggle(
+  "show-bottom-fields",
+  showBottom
+);
+
+card.classList.toggle(
+  "show-top-fields",
+  showTop
+);
+```
+
+---
+
+# CSS visibility rules
+
+Flags should disappear when `show-flags` is absent:
+
+```css
+.anki-card:not(.show-flags) .flag {
+  display: none;
+}
+```
+
+Field 3–6 pills disappear when `show-top-fields` is absent:
+
+```css
+.anki-card:not(.show-top-fields) .top-pill {
+  display: none;
+}
+```
+
+Field 1–2 disappear when `show-bottom-fields` is absent:
+
+```css
+.anki-card:not(.show-bottom-fields) .bottom-pill {
+  display: none;
+}
+```
+
+---
+
+# Layout adaptation
+
+The layout must intelligently recenter remaining elements.
+
+Normal:
+
+```text
+[ Play ][ Flag ][ Text ]
+```
+
+Flags OFF:
+
+```text
+[ Play ][ Text ]
+```
+
+Fields 3–6 OFF:
+
+```text
+[ Play ][ Flag ]
+```
+
+Flags OFF + Fields 3–6 OFF:
+
+```text
+[ Play ]
+```
+
+The remaining elements must stay centered.
+
+The current implementation uses CSS grid for this.
+
+Normal desktop row:
+
+```css
+grid-template-columns:
+  40px
+  40px
+  minmax(0, 1fr);
+```
+
+Maximum row width:
+
+```css
+max-width: 550px;
+```
+
+Mobile uses approximately:
+
+```css
+38px
+38px
+minmax(0, 1fr)
+```
+
+---
+
+# Field 1 and Field 2 pills
+
+Field 1 and Field 2 should use content-wrapping pills.
+
+Important characteristics:
+
+```css
+width: fit-content;
+max-width: 100%;
+min-width: 0;
+```
+
+They should NOT always stretch across the full screen.
+
+Use:
+
+```css
+border-radius: 28px;
+padding: 16px 26px;
+```
+
+and allow long content to wrap naturally.
+
+---
+
+# Browser-based version
+
+I also want a standalone browser-based HTML version of this card.
+
+The browser version should use the same visual design but replace Anki fields with literal example sentences.
+
+Example rows:
+
+English:
+
+```text
+I would like to improve my pronunciation every day.
+```
+
+German:
+
+```text
+Ich möchte jeden Tag meine Aussprache verbessern.
+```
+
+Norwegian Bokmål:
+
+```text
+Jeg ønsker å forbedre uttalen min hver dag.
+```
+
+Spanish:
+
+```text
+Quiero mejorar mi pronunciación todos los días.
+```
+
+These can be replaced with other natural example sentences if needed.
+
+---
+
+# Edge SpeechSynthesis version
+
+For the browser version, do NOT use:
+
+```html
+{{tts ...}}
+```
+
+Instead use the browser Web Speech API:
+
+```javascript
+SpeechSynthesisUtterance
+```
+
+and:
+
+```javascript
+speechSynthesis.getVoices()
+```
+
+The goal is primarily Microsoft Edge.
+
+I want the browser to prefer Microsoft Edge Online / Natural voices where available.
+
+Target locales:
+
+```text
+English UK:
+en-GB
+
+German:
+de-DE
+
+Norwegian Bokmål:
+nb-NO
+
+Spanish Spain:
+es-ES
+```
+
+Preferred voice families can include:
+
+```text
+English:
+Sonia
+Ryan
+
+German:
+Katja
+Conrad
+
+Norwegian:
+Pernille
+Finn
+Iselin
+
+Spanish:
+Elvira
+Alvaro
+```
+
+Do not assume exact names will always exist.
+
+The code should dynamically inspect:
+
+```javascript
+speechSynthesis.getVoices()
+```
+
+and choose the best matching voice.
+
+Preferred selection priority:
+
+1. Correct locale
+2. Preferred voice name
+3. Name contains `Natural`
+4. Name contains `Online`
+5. Any voice matching the locale
+6. Browser default as last fallback
+
+Example conceptual function:
+
+```javascript
+function findVoice(locale) {
+
+  const localeVoices =
+    availableVoices.filter(function (voice) {
+
+      return voice.lang.toLowerCase() ===
+             locale.toLowerCase();
+
+    });
+
+  // Prefer matching Online/Natural voice,
+  // otherwise fall back to any locale voice.
+
+}
+```
+
+Playback:
+
+```javascript
+function speakText(text, locale) {
+
+  speechSynthesis.cancel();
+
+  const utterance =
+    new SpeechSynthesisUtterance(text);
+
+  utterance.lang = locale;
+
+  const voice =
+    findVoice(locale);
+
+  if (voice) {
+    utterance.voice = voice;
+  }
+
+  utterance.rate = 1;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  speechSynthesis.speak(utterance);
+
+}
+```
+
+The black circular play buttons should trigger this function.
+
+Example:
+
+```javascript
+speakText(
+  "Jeg ønsker å forbedre uttalen min hver dag.",
+  "nb-NO"
+);
+```
+
+---
+
+# Important Edge vs Anki distinction
+
+Microsoft Edge itself can expose higher-quality Online/Natural voices through the browser `speechSynthesis` implementation.
+
+This is different from Anki Desktop.
+
+Conceptually:
+
+```text
+AnkiWeb
+   ↓
+Microsoft Edge
+   ↓
+SpeechSynthesis
+   ↓
+Microsoft Online / Natural voices
+```
+
+This may provide much better speech quality without generating audio files.
+
+Anki Desktop instead uses its own Qt/WebEngine environment:
+
+```text
+Anki Desktop
+   ↓
+Qt / WebEngine reviewer
+```
+
+It is NOT the Microsoft Edge browser.
+
+Therefore Edge Online/Natural voices may not be directly available through plain JavaScript inside Anki Desktop.
+
+---
+
+# Intended hybrid strategy
+
+The preferred future architecture is:
+
+```text
+                     SAME CARD / DECK
+                           │
+                ┌──────────┴──────────┐
+                │                     │
+          AnkiWeb + Edge        Anki Desktop
+                │                     │
+      Edge Natural voices        fallback TTS
+```
+
+The primary high-quality experience can therefore be:
+
+```text
+AnkiWeb opened in Microsoft Edge
+```
+
+while Anki Desktop can remain functional with a fallback voice.
+
+The card should be defensive and not assume that every environment exposes the same voices.
+
+---
+
+# AnkiWeb concept
+
+I am interested in potentially optimizing these cards specifically for:
+
+```text
+AnkiWeb + Microsoft Edge
+```
+
+even if the TTS quality is worse or unavailable in Anki Desktop.
+
+This is acceptable if necessary.
+
+The purpose is to work around limitations of Anki Desktop's TTS environment while preserving:
+
+- Anki scheduling
+- deck syncing
+- review history
+- card templates
+- browser-based natural voices
+
+---
+
+# Azure Speech clarification
+
+Azure Speech is a separate alternative.
+
+Azure Speech would require:
+
+- Azure account
+- Speech resource
+- API credentials
+- region/endpoint
+- potentially billing after free usage
+
+I DO NOT want to start with Azure.
+
+Do not put Azure API credentials directly inside client-side HTML.
+
+The preferred first approach is:
+
+```text
+Edge + browser speechSynthesis
+```
+
+because it does not require embedding API keys.
+
+Only suggest Azure if browser-based Edge speech synthesis proves insufficient.
+
+---
+
+# Voice inspection/debugging
+
+For development, it is useful to inspect available voices using:
+
+```javascript
+console.table(
+  speechSynthesis.getVoices().map(v => ({
+    name: v.name,
+    language: v.lang,
+    localService: v.localService
+  }))
+);
+```
+
+The page can optionally expose a small developer/debug area showing detected voices, but do not add such UI unless requested.
+
+---
+
+# Separate list-parser Anki card
+
+There is also another related Anki card in this project that parses a compact list format.
+
+Its data format is:
+
+```text
+audio1↑text1a↑text1b↓audio2↑text2a↑text2b↓audio3↑text3a↑text3b
+```
+
+Parsing rules:
+
+```text
+↓ = row delimiter
+↑ = column delimiter
+```
+
+Columns:
+
+```text
+column 1 = audio
+column 2 = Field 1 / text A
+column 3 = Field 2 / text B
+```
+
+Parser:
+
+```javascript
+const items = raw
+  .split("↓")
+  .map(item => item.trim())
+  .filter(Boolean)
+  .map(item => {
+
+    const [
+      soundAudio = "",
+      contentText = "",
+      contentText2 = ""
+    ] = item.split("↑");
+
+    return {
+      soundAudio: soundAudio.trim(),
+      contentText: contentText.trim(),
+      contentText2: contentText2.trim()
+    };
+
+  });
+```
+
+The order MUST remain sequential.
+
+Do not randomize.
+
+---
+
+# List-parser navigation
+
+Current navigation logic uses:
+
+```text
+9 = next
+8 = previous
+P = reset
+```
+
+A `Ctrl+8` shortcut can also be intercepted before plain `8`.
+
+Important ordering:
+
+```javascript
+if (key === "9") {
+
+  event.preventDefault();
+
+  window.showNextItem();
+
+} else if (event.ctrlKey && key === "8") {
+
+  event.preventDefault();
+
+  window.resetItems();
+
+} else if (key === "8") {
+
+  event.preventDefault();
+
+  window.showPreviousItem();
+
+} else if (key === "p") {
+
+  event.preventDefault();
+
+  window.resetItems();
+
+}
+```
+
+Because `Ctrl+8` also satisfies:
+
+```javascript
+key === "8"
+```
+
+the Ctrl condition MUST appear first.
+
+---
+
+# Previous multiple-of-five navigation
+
+There is also an optional navigation button:
+
+```text
+<5
+```
+
+Behavior:
+
+```text
+36 → 35
+35 → 30
+34 → 30
+30 → 25
+6  → 5
+5  → blank/reset
+```
+
+Implementation:
+
+```javascript
+window.showPreviousMultipleOfFive = function () {
+
+  if (currentIndex < 0) {
+    return;
+  }
+
+  const currentPosition =
+    currentIndex + 1;
+
+  const targetPosition =
+    Math.floor(
+      (currentPosition - 1) / 5
+    ) * 5;
+
+  if (targetPosition < 1) {
+
+    currentIndex = -1;
+
+  } else {
+
+    currentIndex =
+      targetPosition - 1;
+
+  }
+
+  render(true);
+
+};
+```
+
+---
+
+# List-parser visibility toggles
+
+The list-parser card also has Field 1 and Field 2 visibility switches.
+
+Correct semantics there should also ideally be:
+
+```text
+OFF = hidden
+ON = visible
+```
+
+with the knob:
+
+```text
+OFF = left / gray
+ON  = right / colored
+```
+
+Do not invert visual semantics.
+
+---
+
+# Full-list table
+
+The back side of the list-parser card can also render the entire parsed list as a table.
+
+Columns:
+
+```text
+Audio | Field 1 | Field 2
+```
+
+The same parser must be used.
+
+Each row contains:
+
+- audio player
+- text A
+- text B
+
+The hidden source field must exist in the back template:
+
+```html
+<div
+  id="list"
+  style="display:none;"
+>
+  {{text:List}}
+</div>
+```
+
+---
+
+# Critical audio constraint for the list-parser card
+
+The audio handling in the list-parser card is already working correctly.
+
+It currently creates audio using:
+
+```javascript
+const audio =
+  document.createElement("audio");
+
+audio.controls = true;
+
+audio.src =
+  currentItem.soundAudio;
+```
+
+Do not modify this mechanism unless absolutely necessary.
+
+Only aesthetics around the audio control should be changed if requested.
+
+---
+
+# Current development priority
+
+When continuing this project, prioritize:
+
+1. preserving the working Anki card
+2. maintaining the visibility toggle semantics
+3. developing the browser / AnkiWeb Edge natural-voice version
+4. dynamically selecting appropriate natural voices
+5. keeping Anki Desktop functional as a fallback where practical
+6. avoiding Azure unless necessary
+7. avoiding generated audio files when browser TTS can handle playback
+8. keeping the interface minimalist and fast
+
+When I request a modification, assume I want the smallest change necessary unless I explicitly ask for a redesign or broader refactor.
