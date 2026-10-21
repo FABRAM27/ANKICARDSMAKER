@@ -1,1 +1,697 @@
+<!-- ===========================================================
+     HYBRID MULTILINGUAL CARD — BACK TEMPLATE
+
+     Field 3: English
+     Field 4: German
+     Field 5: Norwegian Bokmål
+     Field 6: Spanish (Spain)
+     Field 1–2: supplementary information (hidden by default)
+     =========================================================== -->
+
+<div class="hybrid-card show-flags show-top-fields" id="hybrid-card" data-side="back">
+
+  <div class="hybrid-top-section" id="hybrid-language-list">
+
+    {{#Field 3}}
+    <div class="hybrid-language-row" data-locale="en-GB" data-language="English">
+      <div class="hybrid-play-slot">
+        <button
+          class="hybrid-web-play"
+          type="button"
+          aria-label="Play the English sentence"
+          aria-pressed="false"
+        ></button>
+        <div class="hybrid-native-tts">
+          {{tts en_US:Field 3}}
+        </div>
+        <span class="hybrid-play-glyph" aria-hidden="true"></span>
+      </div>
+
+      <span class="hybrid-flag" aria-hidden="true">
+        <svg viewBox="0 0 60 60" focusable="false">
+          <rect width="60" height="60" fill="#012169"></rect>
+          <path d="M-7 -7L67 67M67 -7L-7 67" stroke="#fff" stroke-width="15"></path>
+          <path d="M-7 -7L67 67M67 -7L-7 67" stroke="#c8102e" stroke-width="7"></path>
+          <path d="M30 0V60M0 30H60" stroke="#fff" stroke-width="19"></path>
+          <path d="M30 0V60M0 30H60" stroke="#c8102e" stroke-width="11"></path>
+        </svg>
+      </span>
+
+      <div class="hybrid-pill hybrid-top-pill hybrid-answer-accent" lang="en-GB">
+        <span class="hybrid-sr-only">English: </span>
+        <span class="hybrid-speak-text">{{Field 3}}</span>
+      </div>
+    </div>
+    {{/Field 3}}
+
+
+    {{#Field 4}}
+    <div class="hybrid-language-row" data-locale="de-DE" data-language="German">
+      <div class="hybrid-play-slot">
+        <button
+          class="hybrid-web-play"
+          type="button"
+          aria-label="Play the German sentence"
+          aria-pressed="false"
+        ></button>
+        <div class="hybrid-native-tts">
+          {{tts de_DE:Field 4}}
+        </div>
+        <span class="hybrid-play-glyph" aria-hidden="true"></span>
+      </div>
+
+      <span class="hybrid-flag" aria-hidden="true">
+        <svg viewBox="0 0 60 60" focusable="false">
+          <rect width="60" height="20" y="0" fill="#151515"></rect>
+          <rect width="60" height="20" y="20" fill="#dd0000"></rect>
+          <rect width="60" height="20" y="40" fill="#ffce00"></rect>
+        </svg>
+      </span>
+
+      <div class="hybrid-pill hybrid-top-pill" lang="de-DE">
+        <span class="hybrid-sr-only">German: </span>
+        <span class="hybrid-speak-text">{{Field 4}}</span>
+      </div>
+    </div>
+    {{/Field 4}}
+
+
+    {{#Field 5}}
+    <div class="hybrid-language-row" data-locale="nb-NO" data-language="Norwegian Bokmål">
+      <div class="hybrid-play-slot">
+        <button
+          class="hybrid-web-play"
+          type="button"
+          aria-label="Play the Norwegian Bokmål sentence"
+          aria-pressed="false"
+        ></button>
+        <div class="hybrid-native-tts">
+          {{tts nb_NO:Field 5}}
+        </div>
+        <span class="hybrid-play-glyph" aria-hidden="true"></span>
+      </div>
+
+      <span class="hybrid-flag" aria-hidden="true">
+        <svg viewBox="0 0 60 60" focusable="false">
+          <rect width="60" height="60" fill="#ba0c2f"></rect>
+          <path d="M22 0V60M0 30H60" stroke="#fff" stroke-width="15"></path>
+          <path d="M22 0V60M0 30H60" stroke="#00205b" stroke-width="8"></path>
+        </svg>
+      </span>
+
+      <div class="hybrid-pill hybrid-top-pill" lang="nb-NO">
+        <span class="hybrid-sr-only">Norwegian Bokmål: </span>
+        <span class="hybrid-speak-text">{{Field 5}}</span>
+      </div>
+    </div>
+    {{/Field 5}}
+
+
+    {{#Field 6}}
+    <div class="hybrid-language-row" data-locale="es-ES" data-language="Spanish">
+      <div class="hybrid-play-slot">
+        <button
+          class="hybrid-web-play"
+          type="button"
+          aria-label="Play the Spanish sentence"
+          aria-pressed="false"
+        ></button>
+        <div class="hybrid-native-tts">
+          {{tts es_ES:Field 6}}
+        </div>
+        <span class="hybrid-play-glyph" aria-hidden="true"></span>
+      </div>
+
+      <span class="hybrid-flag" aria-hidden="true">
+        <svg viewBox="0 0 60 60" focusable="false">
+          <rect width="60" height="60" fill="#aa151b"></rect>
+          <rect width="60" height="30" y="15" fill="#f1bf00"></rect>
+        </svg>
+      </span>
+
+      <div class="hybrid-pill hybrid-top-pill" lang="es-ES">
+        <span class="hybrid-sr-only">Spanish: </span>
+        <span class="hybrid-speak-text">{{Field 6}}</span>
+      </div>
+    </div>
+    {{/Field 6}}
+
+  </div>
+
+
+  <div class="hybrid-bottom-section">
+
+    <div class="hybrid-toggles-row" aria-label="Card display options">
+
+      <label class="hybrid-toggle-group" for="hybrid-show-flags">
+        <span class="hybrid-toggle-label">Show Flags</span>
+        <span class="hybrid-switch">
+          <input
+            id="hybrid-show-flags"
+            type="checkbox"
+            role="switch"
+            aria-controls="hybrid-language-list"
+            checked
+          >
+          <span class="hybrid-slider" aria-hidden="true"></span>
+        </span>
+      </label>
+
+      <label class="hybrid-toggle-group" for="hybrid-show-1-2">
+        <span class="hybrid-toggle-label">Show Field 1 &amp; 2</span>
+        <span class="hybrid-switch">
+          <input
+            id="hybrid-show-1-2"
+            type="checkbox"
+            role="switch"
+            aria-controls="hybrid-bottom-fields"
+          >
+          <span class="hybrid-slider" aria-hidden="true"></span>
+        </span>
+      </label>
+
+      <label class="hybrid-toggle-group" for="hybrid-show-3-6">
+        <span class="hybrid-toggle-label">Show Field 3, 4, 5 &amp; 6</span>
+        <span class="hybrid-switch">
+          <input
+            id="hybrid-show-3-6"
+            type="checkbox"
+            role="switch"
+            aria-controls="hybrid-language-list"
+            checked
+          >
+          <span class="hybrid-slider" aria-hidden="true"></span>
+        </span>
+      </label>
+
+    </div>
+
+
+    <div class="hybrid-bottom-fields" id="hybrid-bottom-fields">
+      {{#Field 1}}
+      <div class="hybrid-pill hybrid-big-pill">
+        {{Field 1}}
+      </div>
+      {{/Field 1}}
+
+      {{#Field 2}}
+      <div class="hybrid-pill hybrid-big-pill">
+        {{Field 2}}
+      </div>
+      {{/Field 2}}
+    </div>
+
+    <p
+      class="hybrid-speech-status"
+      id="hybrid-speech-status"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
+
+  </div>
+
+</div>
+
+
+<script>
+(function () {
+  "use strict";
+
+  var root = document.getElementById("hybrid-card");
+  if (!root) return;
+
+  /* ---------------------------------------------------------
+     DISPLAY PREFERENCES
+     --------------------------------------------------------- */
+
+  var storageKey = "hybrid-anki-card:display:v1";
+  var defaults = {
+    flags: true,
+    bottom: false,
+    top: true
+  };
+
+  var controls = {
+    flags: document.getElementById("hybrid-show-flags"),
+    bottom: document.getElementById("hybrid-show-1-2"),
+    top: document.getElementById("hybrid-show-3-6")
+  };
+
+  function readLegacyValue(id, fallback) {
+    try {
+      var stored = sessionStorage.getItem(id);
+      if (stored === "true") return true;
+      if (stored === "false") return false;
+    } catch (error) {
+      /* Storage is optional. */
+    }
+    return fallback;
+  }
+
+  function readPreferences() {
+    var result = {
+      flags: defaults.flags,
+      bottom: defaults.bottom,
+      top: defaults.top
+    };
+
+    try {
+      var raw = sessionStorage.getItem(storageKey);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        if (typeof parsed.flags === "boolean") result.flags = parsed.flags;
+        if (typeof parsed.bottom === "boolean") result.bottom = parsed.bottom;
+        if (typeof parsed.top === "boolean") result.top = parsed.top;
+        return result;
+      }
+    } catch (error) {
+      /* Use deterministic defaults below. */
+    }
+
+    result.flags = readLegacyValue("show-flags", result.flags);
+    result.bottom = readLegacyValue("show-1-2", result.bottom);
+    result.top = readLegacyValue("show-3-6", result.top);
+    return result;
+  }
+
+  function savePreferences(preferences) {
+    try {
+      sessionStorage.setItem(storageKey, JSON.stringify(preferences));
+    } catch (error) {
+      /* The card remains fully usable without storage. */
+    }
+  }
+
+  function setClass(element, className, enabled) {
+    if (!element) return;
+    if (enabled) element.classList.add(className);
+    else element.classList.remove(className);
+  }
+
+  var preferences = readPreferences();
+
+  function applyPreferences() {
+    if (controls.flags) controls.flags.checked = preferences.flags;
+    if (controls.bottom) controls.bottom.checked = preferences.bottom;
+    if (controls.top) controls.top.checked = preferences.top;
+
+    setClass(root, "show-flags", preferences.flags);
+    setClass(root, "show-bottom-fields", preferences.bottom);
+    setClass(root, "show-top-fields", preferences.top);
+  }
+
+  function bindPreference(control, name) {
+    if (!control) return;
+    control.addEventListener("change", function () {
+      preferences[name] = Boolean(control.checked);
+      savePreferences(preferences);
+      applyPreferences();
+    });
+  }
+
+  bindPreference(controls.flags, "flags");
+  bindPreference(controls.bottom, "bottom");
+  bindPreference(controls.top, "top");
+  applyPreferences();
+
+  /* ---------------------------------------------------------
+     SHARED, GUARDED BROWSER-SPEECH ENGINE
+     --------------------------------------------------------- */
+
+  function getSpeechEngine() {
+    var globalKey = "__hybridAnkiSpeechEngineV1";
+    if (window[globalKey]) {
+      window[globalKey].refresh();
+      return window[globalKey];
+    }
+
+    var synth = window.speechSynthesis || null;
+    var supported = Boolean(synth && window.SpeechSynthesisUtterance);
+    var voices = [];
+    var generation = 0;
+
+    var preferredNames = {
+      "en-GB": ["sonia", "ryan", "libby"],
+      "de-DE": ["katja", "conrad", "amala"],
+      "nb-NO": ["pernille", "finn", "iselin"],
+      "es-ES": ["elvira", "alvaro", "abril", "ximena"]
+    };
+
+    function normaliseLocale(value) {
+      return String(value || "").replace(/_/g, "-").toLowerCase();
+    }
+
+    function languageFamily(value) {
+      var base = normaliseLocale(value).split("-")[0];
+      return base === "no" ? "nb" : base;
+    }
+
+    function localeTier(voiceLocale, targetLocale) {
+      var voice = normaliseLocale(voiceLocale);
+      var target = normaliseLocale(targetLocale);
+      if (voice === target) return 2;
+
+      if (
+        target === "nb-no" &&
+        (voice === "no-no" || voice === "nb" || voice === "no")
+      ) return 2;
+
+      return languageFamily(voice) === languageFamily(target) ? 1 : 0;
+    }
+
+    function voiceDescription(voice) {
+      return String((voice && voice.name) || "") + " " +
+        String((voice && voice.voiceURI) || "");
+    }
+
+    function isNaturalVoice(voice) {
+      var description = voiceDescription(voice).toLowerCase();
+      return (
+        description.indexOf("natural") !== -1 ||
+        description.indexOf("neural") !== -1 ||
+        description.indexOf("online") !== -1 ||
+        voice.localService === false
+      );
+    }
+
+    function voiceScore(voice, locale) {
+      var description = voiceDescription(voice).toLowerCase();
+      var score = 0;
+
+      if (description.indexOf("natural") !== -1) score += 180;
+      if (description.indexOf("neural") !== -1) score += 180;
+      if (description.indexOf("online") !== -1) score += 150;
+      if (voice.localService === false) score += 120;
+      if (description.indexOf("microsoft") !== -1) score += 80;
+
+      var favourites = preferredNames[locale] || [];
+      for (var index = 0; index < favourites.length; index += 1) {
+        if (description.indexOf(favourites[index]) !== -1) {
+          score += 70 - index * 8;
+          break;
+        }
+      }
+
+      if (voice.default) score += 5;
+      return score;
+    }
+
+    function refresh() {
+      if (!supported) return [];
+      try {
+        voices = synth.getVoices() || [];
+      } catch (error) {
+        voices = [];
+      }
+      return voices;
+    }
+
+    function pick(locale, naturalOnly, excludedName) {
+      refresh();
+      var candidates = [];
+      var bestTier = 0;
+
+      for (var index = 0; index < voices.length; index += 1) {
+        var voice = voices[index];
+        var tier = localeTier(voice.lang, locale);
+        if (!tier) continue;
+        if (excludedName && voice.name === excludedName) continue;
+        if (naturalOnly && !isNaturalVoice(voice)) continue;
+
+        if (tier > bestTier) {
+          bestTier = tier;
+          candidates = [voice];
+        } else if (tier === bestTier) {
+          candidates.push(voice);
+        }
+      }
+
+      if (!candidates.length) return null;
+      candidates.sort(function (first, second) {
+        return voiceScore(second, locale) - voiceScore(first, locale);
+      });
+      return candidates[0];
+    }
+
+    function speak(text, locale, voice, handlers) {
+      if (!supported || !text) return false;
+
+      generation += 1;
+      var token = generation;
+      var utterance = new SpeechSynthesisUtterance(text);
+      var callbacks = handlers || {};
+
+      try {
+        synth.cancel();
+      } catch (error) {
+        /* Continue with the new utterance. */
+      }
+
+      utterance.lang = locale;
+      utterance.rate = 1;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      if (voice) utterance.voice = voice;
+
+      utterance.onstart = function () {
+        if (token !== generation) return;
+        if (callbacks.onStart) callbacks.onStart(voice);
+      };
+
+      utterance.onend = function () {
+        if (token !== generation) return;
+        if (callbacks.onEnd) callbacks.onEnd();
+      };
+
+      utterance.onerror = function (event) {
+        if (token !== generation) return;
+        if (event && (event.error === "canceled" || event.error === "interrupted")) return;
+        if (callbacks.onError) callbacks.onError(event || {});
+      };
+
+      try {
+        synth.speak(utterance);
+      } catch (error) {
+        if (callbacks.onError) callbacks.onError(error);
+      }
+
+      return true;
+    }
+
+    function cancel() {
+      generation += 1;
+      if (!supported) return;
+      try {
+        synth.cancel();
+      } catch (error) {
+        /* Ignore cancellation failures. */
+      }
+    }
+
+    var engine = {
+      supported: supported,
+      refresh: refresh,
+      pick: pick,
+      speak: speak,
+      cancel: cancel,
+      localeTier: localeTier
+    };
+
+    if (supported) {
+      refresh();
+      if (typeof synth.addEventListener === "function") {
+        synth.addEventListener("voiceschanged", refresh);
+      } else {
+        synth.onvoiceschanged = refresh;
+      }
+    }
+
+    window[globalKey] = engine;
+    return engine;
+  }
+
+  var engine = getSpeechEngine();
+  var status = document.getElementById("hybrid-speech-status");
+  var statusTimer = 0;
+
+  function announce(message, isError, keepVisible) {
+    window.clearTimeout(statusTimer);
+    if (!status) return;
+    status.textContent = message || "";
+    setClass(status, "is-error", Boolean(isError));
+
+    if (message && !keepVisible) {
+      statusTimer = window.setTimeout(function () {
+        status.textContent = "";
+        status.classList.remove("is-error");
+      }, 3400);
+    }
+  }
+
+  function getNativeControl(slot) {
+    return slot.querySelector(
+      ".hybrid-native-tts .replay-button, " +
+      ".hybrid-native-tts .replaybutton, " +
+      ".hybrid-native-tts .soundLink"
+    );
+  }
+
+  function clearSlot(slot) {
+    if (!slot) return;
+    window.clearTimeout(slot.__hybridPulseTimer);
+    slot.classList.remove("is-loading");
+    slot.classList.remove("is-speaking");
+    slot.classList.remove("is-native-active");
+    var webButton = slot.querySelector(".hybrid-web-play");
+    if (webButton) webButton.setAttribute("aria-pressed", "false");
+  }
+
+  function clearOtherSlots(activeSlot) {
+    var slots = root.querySelectorAll(".hybrid-play-slot");
+    for (var index = 0; index < slots.length; index += 1) {
+      if (slots[index] !== activeSlot) clearSlot(slots[index]);
+    }
+  }
+
+  function passToNative(slot, nativeControl, language) {
+    if (!nativeControl) return false;
+
+    clearOtherSlots(slot);
+    engine.cancel();
+    clearSlot(slot);
+    slot.classList.add("is-native-active");
+    announce("Playing " + language + " with your device voice.", false, false);
+
+    slot.__hybridNativePass = true;
+    try {
+      nativeControl.click();
+    } catch (error) {
+      slot.__hybridNativePass = false;
+      clearSlot(slot);
+      announce("The device voice could not start.", true, false);
+      return false;
+    }
+    slot.__hybridNativePass = false;
+
+    slot.__hybridPulseTimer = window.setTimeout(function () {
+      clearSlot(slot);
+    }, 1500);
+    return true;
+  }
+
+  function rowText(row) {
+    var textElement = row.querySelector(".hybrid-speak-text");
+    if (!textElement) return "";
+    return String(textElement.textContent || "").replace(/\s+/g, " ").trim();
+  }
+
+  function browserSpeak(row, slot, voice, retryAllowed) {
+    var locale = row.getAttribute("data-locale") || "";
+    var language = row.getAttribute("data-language") || "this language";
+    var text = rowText(row);
+
+    if (!engine.supported || !text) {
+      clearSlot(slot);
+      announce("Speech is unavailable in this browser.", true, false);
+      return;
+    }
+
+    clearOtherSlots(slot);
+    clearSlot(slot);
+    slot.classList.add("is-loading");
+    var webButton = slot.querySelector(".hybrid-web-play");
+    if (webButton) webButton.setAttribute("aria-pressed", "true");
+    announce("Loading the best " + language + " voice…", false, true);
+
+    engine.speak(text, locale, voice, {
+      onStart: function (selectedVoice) {
+        slot.classList.remove("is-loading");
+        slot.classList.add("is-speaking");
+        var voiceNote = selectedVoice ? " with " + selectedVoice.name : "";
+        announce("Playing " + language + voiceNote + ".", false, true);
+      },
+
+      onEnd: function () {
+        clearSlot(slot);
+        announce("Finished playing " + language + ".", false, false);
+      },
+
+      onError: function () {
+        clearSlot(slot);
+        var nativeControl = getNativeControl(slot);
+        if (nativeControl) {
+          passToNative(slot, nativeControl, language);
+          return;
+        }
+
+        if (retryAllowed) {
+          var fallback = engine.pick(locale, false, voice ? voice.name : "");
+          browserSpeak(row, slot, fallback, false);
+          return;
+        }
+
+        announce("Speech could not start on this device.", true, false);
+      }
+    });
+  }
+
+  function stopOriginalEvent(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (typeof event.stopImmediatePropagation === "function") {
+      event.stopImmediatePropagation();
+    }
+  }
+
+  function bindLanguageRow(row) {
+    var slot = row.querySelector(".hybrid-play-slot");
+    if (!slot) return;
+
+    var webButton = slot.querySelector(".hybrid-web-play");
+    var nativeControl = getNativeControl(slot);
+
+    if (nativeControl) {
+      slot.classList.add("hybrid-has-native");
+      if (webButton) {
+        webButton.setAttribute("tabindex", "-1");
+        webButton.setAttribute("aria-hidden", "true");
+      }
+    } else {
+      slot.classList.add("hybrid-no-native");
+    }
+
+    slot.addEventListener("click", function (event) {
+      if (slot.__hybridNativePass) return;
+
+      stopOriginalEvent(event);
+      var locale = row.getAttribute("data-locale") || "";
+      var language = row.getAttribute("data-language") || "this language";
+      var exactNaturalVoice = engine.pick(locale, true, "");
+
+      if (
+        exactNaturalVoice &&
+        engine.localeTier(exactNaturalVoice.lang, locale) === 2
+      ) {
+        browserSpeak(row, slot, exactNaturalVoice, true);
+        return;
+      }
+
+      nativeControl = getNativeControl(slot);
+      if (nativeControl) {
+        passToNative(slot, nativeControl, language);
+        return;
+      }
+
+      browserSpeak(row, slot, engine.pick(locale, false, ""), false);
+    }, true);
+  }
+
+  var rows = root.querySelectorAll(".hybrid-language-row");
+  for (var rowIndex = 0; rowIndex < rows.length; rowIndex += 1) {
+    bindLanguageRow(rows[rowIndex]);
+  }
+
+})();
+</script>
 
