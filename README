@@ -1,1 +1,10 @@
+Anki Template Generator
 
+Open index.html in a modern browser. Arrange your fields, select Front/Back,
+and click Generate. Copy FRONT SIDE, BACK SIDE and STYLE into Anki's Cards editor.
+
+The app works locally with no backend or build step. It starts with English on
+both sides and Spanish on the back, saves settings locally, and supports JSON
+configuration backups. Learning content stays in Anki.
+
+See README.md for usage, source structure, tests and speech/platform limitations.

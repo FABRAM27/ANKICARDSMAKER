@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Anki Template Generator</title>
+  <link rel="stylesheet" href="app.css">
+  <script defer src="js/languages.js"></script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/voice.js"></script>
+  <script defer src="js/card-runtime.js"></script>
+  <script defer src="js/card-style.js"></script>
+  <script defer src="js/templates.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <main class="shell">
+    <header class="masthead">
+      <a class="brand" href="index.html" aria-label="Anki Template Generator home"><span class="brand-icon" aria-hidden="true">a<span>✦</span></span><span>ANKI <span class="brand-light">/ TEMPLATE STUDIO</span></span></a>
+      <span class="local-badge"><span aria-hidden="true"></span> Local &amp; offline</span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <p class="eyebrow">YOUR LANGUAGES. YOUR LEARNING.</p>
+      <h1 id="title">One template.<br><span>Every language you learn.</span></h1>
+      <p class="intro-copy">Arrange your fields, choose a side, and make it yours.<br>We’ll take care of the templates. You bring the learning.</p>
+    </section>
+
+    <section class="workspace" aria-labelledby="fields-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / CONFIGURE</p><h2 id="fields-title">Your fields <span id="field-count" class="count">2</span></h2></div>
+        <div class="config-actions">
+          <button type="button" id="import">Import JSON</button>
+          <button type="button" id="export">Export JSON</button>
+          <input type="file" id="import-file" accept=".json,application/json" hidden>
+        </div>
+      </div>
+      <p class="section-description" id="field-help">Use the exact field names from your Anki note type. Drag to arrange, or use the arrow buttons.</p>
+      <ol id="fields" class="fields" aria-describedby="field-help"></ol>
+      <div class="field-footer"><button type="button" id="add-field" class="add-button">+ Add field</button><span class="save-status" id="save-status" role="status"></span></div>
+      <div class="role-note"><span aria-hidden="true">i</span><p><strong>A little extra context?</strong> Mark a field as supplementary for hints, notes, or explanations. It starts hidden on your card and doesn’t need a language.</p></div>
+      <div id="validation" class="validation" role="alert" tabindex="-1" hidden></div>
+      <div class="generate-bar"><button type="button" id="reset" class="quiet">Reset to default</button><button type="button" id="generate" class="primary">Generate templates <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button></div>
+    </section>
+
+    <section class="results-section" aria-labelledby="outputs-title">
+      <div class="section-heading"><div><p class="eyebrow">02 / COPY TO ANKI</p><h2 id="outputs-title">Ready when you are.</h2></div><span id="output-state" class="output-state" role="status">Generate to get started</span></div>
+      <p class="section-description">Three outputs. One matching note type. No extra setup on your cards.</p>
+      <div id="outputs" class="outputs">
+        <article class="output-panel" data-output="front"><span class="output-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 18 18 6M6 6h12v12"/></svg></span><h3>FRONT SIDE</h3><p>The question. Your starting point.</p><div class="output-actions"><button type="button" data-action="see" disabled>See <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><button type="button" data-action="copy" disabled>Copy</button></div></article>
+        <article class="output-panel" data-output="back"><span class="output-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 6 6 18M18 18H6V6"/></svg></span><h3>BACK SIDE</h3><p>The answer. The full picture.</p><div class="output-actions"><button type="button" data-action="see" disabled>See <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><button type="button" data-action="copy" disabled>Copy</button></div></article>
+        <article class="output-panel" data-output="style"><span class="output-icon" aria-hidden="true">✧</span><h3>STYLE</h3><p>The details that bring it together.</p><div class="output-actions"><button type="button" data-action="see" disabled>See <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18 18 6M6 6h12v12"/></svg></button><button type="button" data-action="copy" disabled>Copy</button></div></article>
+      </div>
+      <div id="checklist-section" class="checklist-section" hidden><h3>Your Anki field checklist</h3><p>Create these exact fields in your Anki note type before pasting the templates. Renaming a field here does not rename it in Anki.</p><ul id="checklist"></ul></div>
+      <p id="feedback" class="feedback" role="status" aria-live="polite"></p>
+    </section>
+    <section class="instructions" aria-labelledby="how-title"><div><p class="eyebrow">THE LAST LITTLE STEP</p><h2 id="how-title">Make it an Anki card.</h2></div><ol><li>In Anki, open your note type’s <strong>Cards…</strong> editor.</li><li>Paste <strong>FRONT SIDE</strong> into Front Template and <strong>BACK SIDE</strong> into Back Template.</li><li>Paste <strong>STYLE</strong> into Styling. Save, then add your learning content in Anki.</li></ol></section>
+    <footer><span>Made for the way you learn.</span><span>11 languages · No accounts · No API keys</span></footer>
+  </main>
+  <dialog id="source-dialog" aria-labelledby="source-title"><div class="dialog-heading"><h2 id="source-title">Generated source</h2><button type="button" id="close-dialog" aria-label="Close source code">Close <span aria-hidden="true">×</span></button></div><p id="source-help">Complete source, ready to paste into Anki. Select the text here to copy manually.</p><textarea id="source-code" readonly spellcheck="false" aria-label="Generated source code" aria-describedby="source-help"></textarea></dialog>
+</body>
+</html>
